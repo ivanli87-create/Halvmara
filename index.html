@@ -10,390 +10,790 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:#0e0e10;color:#e8e8e0;font-family:Georgia,serif}
+input[type=radio],input[type=checkbox]{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
 
-/* Hide all radio/checkbox inputs */
-input[type=radio],input[type=checkbox]{position:absolute;opacity:0;width:0;height:0}
-
-/* HEADER */
 .hdr{background:linear-gradient(160deg,#0e1a14,#0d1624 55%,#150d1e);padding:52px 16px 20px;border-bottom:1px solid #1e1e22;text-align:center}
-.hdr-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;color:#5dba8a;text-transform:uppercase;margin-bottom:6px}
+.hdr-lbl{font-family:"Courier New",monospace;font-size:10px;letter-spacing:3px;color:#5dba8a;text-transform:uppercase;margin-bottom:6px}
 .hdr h1{font-size:26px;font-weight:700;color:#fff;margin-bottom:4px}
-.hdr-sub{color:#666;font-size:12px;font-family:'Courier New',monospace}
+.hdr-sub{color:#666;font-size:12px;font-family:"Courier New",monospace}
 
-/* TABS via radio buttons */
 .tabs{display:flex;background:#0e0e10;border-bottom:1px solid #222;position:sticky;top:0;z-index:100}
-.tab-label{flex:1;padding:13px 4px;color:#666;font-family:'Courier New',monospace;font-size:11px;cursor:pointer;border-bottom:2px solid transparent;text-align:center;user-select:none;-webkit-user-select:none}
+.tlbl{flex:1;padding:13px 4px;color:#666;font-family:"Courier New",monospace;font-size:11px;cursor:pointer;border-bottom:2px solid transparent;text-align:center;-webkit-user-select:none;user-select:none}
+#t1:checked~.wrap .tlbl[for=t1],#t2:checked~.wrap .tlbl[for=t2],#t3:checked~.wrap .tlbl[for=t3],#t4:checked~.wrap .tlbl[for=t4]{color:#5dba8a;border-bottom-color:#5dba8a;font-weight:700}
 
-#tab-tr:checked ~ .wrap .tab-label[for=tab-tr],
-#tab-nu:checked ~ .wrap .tab-label[for=tab-nu],
-#tab-da:checked ~ .wrap .tab-label[for=tab-da]{color:#5dba8a;border-bottom-color:#5dba8a;font-weight:700}
-
-/* PANELS */
 .panel{display:none;padding:12px 12px 80px;max-width:520px;margin:0 auto}
-#tab-tr:checked ~ .wrap #p-tr{display:block}
-#tab-nu:checked ~ .wrap #p-nu{display:block}
-#tab-da:checked ~ .wrap #p-da{display:block}
+#t1:checked~.wrap #p1{display:block}
+#t2:checked~.wrap #p2{display:block}
+#t3:checked~.wrap #p3{display:block}
+#t4:checked~.wrap #p4{display:block}
 
-/* WEEK CARDS via checkboxes */
 .wcard{margin-bottom:7px;border-radius:12px;overflow:hidden;border:1px solid #222;background:#111}
-.whdr{display:flex;align-items:center;padding:12px 14px;cursor:pointer;gap:8px;user-select:none;-webkit-user-select:none}
-.wpip{padding:2px 7px;border-radius:10px;font-size:9px;font-family:'Courier New',monospace;letter-spacing:0.5px;white-space:nowrap;flex-shrink:0}
-.wtitle{font-weight:700;font-size:14px;flex:1}
-.wdates{font-family:'Courier New',monospace;font-size:10px;color:#666}
-.wkm{font-family:'Courier New',monospace;font-size:12px;font-weight:700;flex-shrink:0}
-.wchev{color:#555;font-size:13px;flex-shrink:0;transition:transform .2s}
-.wbody{display:none;padding:0 14px 14px}
+.wlbl{display:flex;align-items:center;padding:12px 14px;cursor:pointer;gap:8px;-webkit-user-select:none;user-select:none}
+.pip{padding:2px 7px;border-radius:10px;font-size:9px;font-family:"Courier New",monospace;white-space:nowrap;flex-shrink:0}
+.wt{font-weight:700;font-size:14px;flex:1}
+.wd{font-family:"Courier New",monospace;font-size:10px;color:#666}
+.wk{font-family:"Courier New",monospace;font-size:12px;font-weight:700;flex-shrink:0}
+.wc{color:#555;font-size:13px;flex-shrink:0;display:inline-block;transition:transform .2s}
+.wbdy{display:none;padding:0 14px 14px}
 .wtip{border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#aaa;line-height:1.55;border-left:3px solid #333;background:rgba(255,255,255,.03)}
+.wcb:checked~.wlbl .wc{transform:rotate(180deg)}
+.wcb:checked~.wbdy{display:block}
 
-/* Show week body when checkbox checked */
-.week-cb:checked ~ .wbody{display:block}
-.week-cb:checked ~ .whdr .wchev{transform:rotate(180deg)}
+.dr{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.dr:last-child{border-bottom:none}
+.dd{font-family:"Courier New",monospace;font-size:11px;color:#666;width:26px;flex-shrink:0;padding-top:1px}
+.dt{font-family:"Courier New",monospace;font-size:10px;width:62px;flex-shrink:0;padding-top:2px}
+.de{font-size:12px;color:#ccc;line-height:1.45;flex:1}
+.dk{font-family:"Courier New",monospace;font-size:11px;font-weight:700;flex-shrink:0;padding-top:1px}
 
-.drow{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.drow:last-child{border-bottom:none}
-.dday{font-family:'Courier New',monospace;font-size:11px;color:#666;width:26px;flex-shrink:0;padding-top:1px}
-.dtype{font-family:'Courier New',monospace;font-size:10px;width:62px;flex-shrink:0;padding-top:2px}
-.ddesc{font-size:12px;color:#ccc;line-height:1.45;flex:1}
-.dkm{font-family:'Courier New',monospace;font-size:11px;font-weight:700;flex-shrink:0;padding-top:1px}
+.nc{background:#111;border:1px solid #222;border-radius:12px;padding:16px;margin-bottom:10px}
+.nt{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-weight:700;font-size:15px}
+.nb{color:#ddd;font-size:13px;line-height:1.6;margin-bottom:6px}
+.ns{color:#666;font-size:12px;line-height:1.5;font-style:italic}
+.mg{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:12px}
+.mc{background:#0e0e10;border-radius:8px;padding:10px 6px;text-align:center;border:1px solid #222}
+.mv{font-family:"Courier New",monospace;font-size:12px;font-weight:700;line-height:1.3}
+.mu{font-family:"Courier New",monospace;font-size:9px;color:#666}
+.ml{font-size:10px;color:#888;margin-top:4px}
 
-/* NUTRITION */
-.ncard{background:#111;border:1px solid #222;border-radius:12px;padding:16px;margin-bottom:10px}
-.ntitle{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-weight:700;font-size:15px}
-.ncont{color:#ddd;font-size:13px;line-height:1.6;margin-bottom:6px}
-.ndet{color:#666;font-size:12px;line-height:1.5;font-style:italic}
-.mgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:12px}
-.mcell{background:#0e0e10;border-radius:8px;padding:10px 6px;text-align:center;border:1px solid #222}
-.mval{font-family:'Courier New',monospace;font-size:12px;font-weight:700;line-height:1.3}
-.munit{font-family:'Courier New',monospace;font-size:9px;color:#666}
-.mlabel{font-size:10px;color:#888;margin-top:4px}
+.mr{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1a1a1e;align-items:flex-start}
+.mr:last-child{border-bottom:none}
+.mt{font-family:"Courier New",monospace;font-size:12px;color:#5dba8a;width:42px;flex-shrink:0;padding-top:1px}
+.mn{font-weight:700;font-size:13px;margin-bottom:2px}
+.mf{color:#aaa;font-size:12px;line-height:1.4}
+.mk{font-family:"Courier New",monospace;font-size:11px;color:#666;flex-shrink:0;padding-top:1px}
+.tr{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #1a1a1e}
+.tr:last-child{border-bottom:none}
+.ta{color:#5daacd;flex-shrink:0}
+.tx{font-size:13px;color:#ccc;line-height:1.5}
+.rcb:checked~.wlbl .wc{transform:rotate(180deg)}
+.rcb:checked~.wbdy{display:block}
+.ring{color:#888;font-size:12px;line-height:1.7;margin-bottom:10px}
+.rstep{display:flex;gap:10px;padding:7px 0;font-size:13px;color:#ccc;line-height:1.5}
+.rnum{color:#5dba8a;font-family:"Courier New",monospace;font-weight:700;flex-shrink:0}
+.rmac{display:flex;gap:8px;margin-top:10px}
+.rpill{padding:4px 10px;border-radius:14px;font-size:10px;font-family:"Courier New",monospace;background:#0e0e10;border:1px solid #2a2a2a;color:#999}
+.rb{margin-top:12px;background:linear-gradient(135deg,#1a2d1a,#1a1a2d);border:1px solid #2d4a2d;border-radius:12px;padding:20px;text-align:center}
 
-/* DAY */
-.mrow{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #1a1a1e;align-items:flex-start}
-.mrow:last-child{border-bottom:none}
-.mtime{font-family:'Courier New',monospace;font-size:12px;color:#5dba8a;width:42px;flex-shrink:0;padding-top:1px}
-.mname{font-weight:700;font-size:13px;margin-bottom:2px}
-.mfood{color:#aaa;font-size:12px;line-height:1.4}
-.mkcal{font-family:'Courier New',monospace;font-size:11px;color:#666;flex-shrink:0;padding-top:1px}
-.trow{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #1a1a1e}
-.trow:last-child{border-bottom:none}
-.tarr{color:#5daacd;flex-shrink:0}
-.ttext{font-size:13px;color:#ccc;line-height:1.5}
-.rbanner{margin-top:12px;background:linear-gradient(135deg,#1a2d1a,#1a1a2d);border:1px solid #2d4a2d;border-radius:12px;padding:20px;text-align:center}
+.stabs{display:flex;gap:6px;margin-bottom:12px}
+.slbl{flex:1;padding:10px 4px;border-radius:10px;border:1px solid #222;background:#111;color:#777;font-family:"Courier New",monospace;font-size:11px;text-align:center;cursor:pointer;-webkit-user-select:none;user-select:none;line-height:1.4}
+#d1:checked~.dw .slbl[for=d1],#d2:checked~.dw .slbl[for=d2],#d3:checked~.dw .slbl[for=d3]{border-color:#5dba8a;color:#5dba8a;background:#0e1f16}
+.dp{display:none}
+#d1:checked~.dw #dp1{display:block}
+#d2:checked~.dw #dp2{display:block}
+#d3:checked~.dw #dp3{display:block}
 </style>
 </head>
 <body>
 
-<!-- Tab state via radio buttons -->
-<input type="radio" name="tab" id="tab-tr" checked>
-<input type="radio" name="tab" id="tab-nu">
-<input type="radio" name="tab" id="tab-da">
+<input type="radio" name="tab" id="t1" checked>
+<input type="radio" name="tab" id="t2">
+<input type="radio" name="tab" id="t3">
+<input type="radio" name="tab" id="t4">
 
 <div class="hdr">
-  <div class="hdr-label">Malmö Halvmaraton · 3 oktober</div>
+  <div class="hdr-lbl">Malmö Halvmaraton &middot; 3 oktober</div>
   <h1>17 veckors plan</h1>
-  <div class="hdr-sub">2 juni → 3 oktober · 105 kg startpunkt</div>
+  <div class="hdr-sub">2 juni &rarr; 3 oktober &middot; 105 kg startpunkt</div>
 </div>
 
 <div class="wrap">
   <div class="tabs">
-    <label class="tab-label" for="tab-tr">🏃 Träning</label>
-    <label class="tab-label" for="tab-nu">🥗 Kost</label>
-    <label class="tab-label" for="tab-da">📋 Exempeldag</label>
+    <label class="tlbl" for="t1">&#127939; Tr&auml;ning</label>
+    <label class="tlbl" for="t2">&#129367; Kost</label>
+    <label class="tlbl" for="t3">&#128203; Exempeldag</label>
+    <label class="tlbl" for="t4">&#127859; Recept</label>
   </div>
 
   <!-- TRÄNING -->
-  <div class="panel" id="p-tr">
+  <div class="panel" id="p1">
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w0">
-      <label class="whdr" for="w0"><span class="wpip" style="background:#2d6a45;color:#5dba8a">BAS</span><span class="wtitle">Vecka 1</span><span class="wdates">2–8 jun</span><span class="wkm" style="color:#5dba8a">16 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#2d6a45">💡 Kom igång försiktigt. Det ska kännas lätt – du ska kunna prata under löpningarna.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Aktiv vila – promenad 20–30 min</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 4 km (puls zon 2)</span><span class="dkm" style="color:#5dba8a">4 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka core + ben 30 min</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Intervall: 6×2 min snabb / 2 min vila (~5 km)</span><span class="dkm" style="color:#5dba8a">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 7 km, lugnt tempo</span><span class="dkm" style="color:#5dba8a">7 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Yoga / stretching 30 min</span></div>
+      <input type="checkbox" class="wcb" id="w0">
+      <label class="wlbl" for="w0">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">BAS</span>
+        <span class="wt">Vecka 1</span>
+        <span class="wd">2&#8211;8 jun</span>
+        <span class="wk" style="color:#5dba8a">16 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#2d6a45">&#128161; Kom ig&aring;ng f&ouml;rsiktigt. Det ska k&auml;nnas l&auml;tt &ndash; du ska kunna prata under l&ouml;pningarna.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Aktiv vila &ndash; promenad 20&#8211;30 min</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 4 km (puls zon 2)</span><span class="dk" style="color:#5dba8a">4 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka core + ben 30 min</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Intervall: 6&times;2 min snabb / 2 min vila (~5 km)</span><span class="dk" style="color:#5dba8a">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 7 km, lugnt tempo</span><span class="dk" style="color:#5dba8a">7 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Yoga / stretching 30 min</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w1">
-      <label class="whdr" for="w1"><span class="wpip" style="background:#2d6a45;color:#5dba8a">BAS</span><span class="wtitle">Vecka 2</span><span class="wdates">9–15 jun</span><span class="wkm" style="color:#5dba8a">18 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#2d6a45">💡 Fokus på regelbundenhet. 3 pass/vecka är bättre än 0.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Aktiv vila – promenad</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#5dba8a">5 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka core + rörlighet</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Fartlek 5 km – variera tempo fritt</span><span class="dkm" style="color:#5dba8a">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 8 km</span><span class="dkm" style="color:#5dba8a">8 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching + skumrulle</span></div>
+      <input type="checkbox" class="wcb" id="w1">
+      <label class="wlbl" for="w1">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">BAS</span>
+        <span class="wt">Vecka 2</span>
+        <span class="wd">9&#8211;15 jun</span>
+        <span class="wk" style="color:#5dba8a">18 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#2d6a45">&#128161; Fokus p&aring; regelbundenhet. 3 pass/vecka &auml;r b&auml;ttre &auml;n 0.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Aktiv vila &ndash; promenad</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#5dba8a">5 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka core + r&ouml;rlighet</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Fartlek 5 km &ndash; variera tempo fritt</span><span class="dk" style="color:#5dba8a">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 8 km</span><span class="dk" style="color:#5dba8a">8 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching + skumrulle</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w2">
-      <label class="whdr" for="w2"><span class="wpip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span><span class="wtitle">Vecka 3</span><span class="wdates">16–22 jun</span><span class="wkm" style="color:#5daacd">20 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#2d5a6a">💡 10 km är en milstolpe! Håll tempot lågt på långpasset.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#5daacd">5 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka + stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 5 km – sista 2 km i halvmaratontempo</span><span class="dkm" style="color:#5daacd">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila / lätt promenad</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 10 km</span><span class="dkm" style="color:#5daacd">10 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Aktiv återhämtning</span></div>
+      <input type="checkbox" class="wcb" id="w2">
+      <label class="wlbl" for="w2">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span>
+        <span class="wt">Vecka 3</span>
+        <span class="wd">16&#8211;22 jun</span>
+        <span class="wk" style="color:#5daacd">20 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#2d5a6a">&#128161; 10 km &auml;r en milstolpe! H&aring;ll tempot l&aring;gt p&aring; l&aring;ngpasset.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#5daacd">5 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka + stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 5 km &ndash; sista 2 km i t&auml;vlingstempo</span><span class="dk" style="color:#5daacd">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila / l&auml;tt promenad</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 10 km</span><span class="dk" style="color:#5daacd">10 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Aktiv &aring;terh&auml;mtning</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w3">
-      <label class="whdr" for="w3"><span class="wpip" style="background:#4a2d6a;color:#9d7dcd">ÅTERHÄMTNING</span><span class="wtitle">Vecka 4</span><span class="wdates">23–29 jun</span><span class="wkm" style="color:#9d7dcd">17 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#4a2d6a">💡 Återhämtningsvecka – kroppen anpassar sig. Minska volymen men behåll frekvensen.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 4 km</span><span class="dkm" style="color:#9d7dcd">4 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Lätt styrka + stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#9d7dcd">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 8 km</span><span class="dkm" style="color:#9d7dcd">8 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Yoga / stretching</span></div>
+      <input type="checkbox" class="wcb" id="w3">
+      <label class="wlbl" for="w3">
+        <span class="pip" style="background:#4a2d6a;color:#9d7dcd">&Aring;TERH&Auml;MTNING</span>
+        <span class="wt">Vecka 4</span>
+        <span class="wd">23&#8211;29 jun</span>
+        <span class="wk" style="color:#9d7dcd">17 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#4a2d6a">&#128161; &Aring;terh&auml;mtningsvecka &ndash; kroppen anpassar sig. Minska volymen men beh&aring;ll frekvensen.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 4 km</span><span class="dk" style="color:#9d7dcd">4 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">L&auml;tt styrka + stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#9d7dcd">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 8 km</span><span class="dk" style="color:#9d7dcd">8 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Yoga / stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w4">
-      <label class="whdr" for="w4"><span class="wpip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span><span class="wtitle">Vecka 5</span><span class="wdates">30 jun–6 jul</span><span class="wkm" style="color:#5daacd">24 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#2d5a6a">💡 12 km på lördagen – ta med energigel och öva på att äta/dricka under löpning.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#5daacd">6 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka core + ben</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Intervall: 8×2 min / 90 sek vila (~6 km)</span><span class="dkm" style="color:#5daacd">6 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 12 km</span><span class="dkm" style="color:#5daacd">12 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching + vila</span></div>
+      <input type="checkbox" class="wcb" id="w4">
+      <label class="wlbl" for="w4">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span>
+        <span class="wt">Vecka 5</span>
+        <span class="wd">30 jun&#8211;6 jul</span>
+        <span class="wk" style="color:#5daacd">24 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#2d5a6a">&#128161; 12 km p&aring; l&ouml;rdagen &ndash; ta med energigel och &ouml;va p&aring; att &auml;ta/dricka under l&ouml;pning.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#5daacd">6 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka core + ben</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Intervall: 8&times;2 min / 90 sek vila (~6 km)</span><span class="dk" style="color:#5daacd">6 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 12 km</span><span class="dk" style="color:#5daacd">12 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching + vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w5">
-      <label class="whdr" for="w5"><span class="wpip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span><span class="wtitle">Vecka 6</span><span class="wdates">7–13 jul</span><span class="wkm" style="color:#5daacd">26 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#2d5a6a">💡 14 km – du börjar se ljuset! Öva på negativt splitt (snabbare andra halvan).</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 6 km</span><span class="dkm" style="color:#5daacd">6 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka + rörlighet</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#5daacd">6 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 14 km</span><span class="dkm" style="color:#5daacd">14 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Aktiv återhämtning</span></div>
+      <input type="checkbox" class="wcb" id="w5">
+      <label class="wlbl" for="w5">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">UPPBYGGNAD</span>
+        <span class="wt">Vecka 6</span>
+        <span class="wd">7&#8211;13 jul</span>
+        <span class="wk" style="color:#5daacd">26 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#2d5a6a">&#128161; 14 km &ndash; du b&ouml;rjar se ljuset! &Ouml;va p&aring; negativt splitt (snabbare andra halvan).</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 6 km</span><span class="dk" style="color:#5daacd">6 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka + r&ouml;rlighet</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#5daacd">6 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 14 km</span><span class="dk" style="color:#5daacd">14 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Aktiv &aring;terh&auml;mtning</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w6">
-      <label class="whdr" for="w6"><span class="wpip" style="background:#4a2d6a;color:#9d7dcd">ÅTERHÄMTNING</span><span class="wtitle">Vecka 7</span><span class="wdates">14–20 jul</span><span class="wkm" style="color:#9d7dcd">21 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#4a2d6a">💡 Återhämtningsvecka – låt benen vila inför nästa uppbyggnadsfas.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#9d7dcd">5 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Lätt styrka</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#9d7dcd">6 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 10 km</span><span class="dkm" style="color:#9d7dcd">10 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching</span></div>
+      <input type="checkbox" class="wcb" id="w6">
+      <label class="wlbl" for="w6">
+        <span class="pip" style="background:#4a2d6a;color:#9d7dcd">&Aring;TERH&Auml;MTNING</span>
+        <span class="wt">Vecka 7</span>
+        <span class="wd">14&#8211;20 jul</span>
+        <span class="wk" style="color:#9d7dcd">21 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#4a2d6a">&#128161; &Aring;terh&auml;mtningsvecka &ndash; l&aring;t benen vila inf&ouml;r n&auml;sta uppbyggnadsfas.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#9d7dcd">5 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">L&auml;tt styrka</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#9d7dcd">6 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 10 km</span><span class="dk" style="color:#9d7dcd">10 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w7">
-      <label class="whdr" for="w7"><span class="wpip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span><span class="wtitle">Vecka 8</span><span class="wdates">21–27 jul</span><span class="wkm" style="color:#cd6d6d">30 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#6a2d2d">💡 16 km är det längsta du behöver springa. Adrenalin klarar resten på tävlingsdagen.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 7 km med 3 km i tävlingstempo</span><span class="dkm" style="color:#cd6d6d">7 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka core</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Intervall 7 km</span><span class="dkm" style="color:#cd6d6d">7 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 16 km – det längsta passet!</span><span class="dkm" style="color:#cd6d6d">16 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Aktiv vila</span></div>
+      <input type="checkbox" class="wcb" id="w7">
+      <label class="wlbl" for="w7">
+        <span class="pip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span>
+        <span class="wt">Vecka 8</span>
+        <span class="wd">21&#8211;27 jul</span>
+        <span class="wk" style="color:#cd6d6d">30 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#6a2d2d">&#128161; 16 km &auml;r det l&auml;ngsta du beh&ouml;ver springa. Adrenalin klarar resten p&aring; t&auml;vlingsdagen.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 7 km med 3 km i t&auml;vlingstempo</span><span class="dk" style="color:#cd6d6d">7 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka core</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Intervall 7 km</span><span class="dk" style="color:#cd6d6d">7 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 16 km &ndash; det l&auml;ngsta passet!</span><span class="dk" style="color:#cd6d6d">16 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Aktiv vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w8">
-      <label class="whdr" for="w8"><span class="wpip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span><span class="wtitle">Vecka 9</span><span class="wdates">28 jul–3 aug</span><span class="wkm" style="color:#cd6d6d">28 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#6a2d2d">💡 Håll intensiteten uppe men lyssna på kroppen – skador undviks med förnuft.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 7 km</span><span class="dkm" style="color:#cd6d6d">7 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka + stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 7 km</span><span class="dkm" style="color:#cd6d6d">7 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 14 km</span><span class="dkm" style="color:#cd6d6d">14 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching</span></div>
+      <input type="checkbox" class="wcb" id="w8">
+      <label class="wlbl" for="w8">
+        <span class="pip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span>
+        <span class="wt">Vecka 9</span>
+        <span class="wd">28 jul&#8211;3 aug</span>
+        <span class="wk" style="color:#cd6d6d">28 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#6a2d2d">&#128161; H&aring;ll intensiteten uppe men lyssna p&aring; kroppen &ndash; skador undviks med f&ouml;rnuft.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 7 km</span><span class="dk" style="color:#cd6d6d">7 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka + stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 7 km</span><span class="dk" style="color:#cd6d6d">7 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 14 km</span><span class="dk" style="color:#cd6d6d">14 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w9">
-      <label class="whdr" for="w9"><span class="wpip" style="background:#4a2d6a;color:#9d7dcd">ÅTERHÄMTNING</span><span class="wtitle">Vecka 10</span><span class="wdates">4–10 aug</span><span class="wkm" style="color:#9d7dcd">24 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#4a2d6a">💡 Tredje återhämtningsveckan – underhåll formen utan att pressa.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#9d7dcd">6 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Lätt styrka</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#9d7dcd">6 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 12 km</span><span class="dkm" style="color:#9d7dcd">12 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Yoga / stretching</span></div>
+      <input type="checkbox" class="wcb" id="w9">
+      <label class="wlbl" for="w9">
+        <span class="pip" style="background:#4a2d6a;color:#9d7dcd">&Aring;TERH&Auml;MTNING</span>
+        <span class="wt">Vecka 10</span>
+        <span class="wd">4&#8211;10 aug</span>
+        <span class="wk" style="color:#9d7dcd">24 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#4a2d6a">&#128161; Tredje &aring;terh&auml;mtningsveckan &ndash; underh&aring;ll formen utan att pressa.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#9d7dcd">6 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">L&auml;tt styrka</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#9d7dcd">6 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 12 km</span><span class="dk" style="color:#9d7dcd">12 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Yoga / stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w10">
-      <label class="whdr" for="w10"><span class="wpip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span><span class="wtitle">Vecka 11</span><span class="wdates">11–17 aug</span><span class="wkm" style="color:#cd6d6d">31 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#6a2d2d">💡 Sista riktiga veckan med hög volym. Du är nära nu!</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 8 km</span><span class="dkm" style="color:#cd6d6d">8 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Styrka core</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Intervall 8 km</span><span class="dkm" style="color:#cd6d6d">8 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 15 km</span><span class="dkm" style="color:#cd6d6d">15 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Aktiv vila</span></div>
+      <input type="checkbox" class="wcb" id="w10">
+      <label class="wlbl" for="w10">
+        <span class="pip" style="background:#6a2d2d;color:#cd6d6d">TOPPFORM</span>
+        <span class="wt">Vecka 11</span>
+        <span class="wd">11&#8211;17 aug</span>
+        <span class="wk" style="color:#cd6d6d">31 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#6a2d2d">&#128161; Sista riktiga veckan med h&ouml;g volym. Du &auml;r n&auml;ra nu!</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 8 km</span><span class="dk" style="color:#cd6d6d">8 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">Styrka core</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Intervall 8 km</span><span class="dk" style="color:#cd6d6d">8 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 15 km</span><span class="dk" style="color:#cd6d6d">15 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Aktiv vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w11">
-      <label class="whdr" for="w11"><span class="wpip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span><span class="wtitle">Vecka 12</span><span class="wdates">18–24 aug</span><span class="wkm" style="color:#cdba5d">23 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#5a5a2d">💡 Nedtrappning börjar. Minska distansen, behåll intensiteten i tempopasset.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#cdba5d">6 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Lätt styrka + stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 5 km</span><span class="dkm" style="color:#cdba5d">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 12 km</span><span class="dkm" style="color:#cdba5d">12 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching</span></div>
+      <input type="checkbox" class="wcb" id="w11">
+      <label class="wlbl" for="w11">
+        <span class="pip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span>
+        <span class="wt">Vecka 12</span>
+        <span class="wd">18&#8211;24 aug</span>
+        <span class="wk" style="color:#cdba5d">23 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#5a5a2d">&#128161; Nedtrappning b&ouml;rjar. Minska distansen, beh&aring;ll intensiteten i tempopasset.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#cdba5d">6 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">L&auml;tt styrka + stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 5 km</span><span class="dk" style="color:#cdba5d">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 12 km</span><span class="dk" style="color:#cdba5d">12 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w12">
-      <label class="whdr" for="w12"><span class="wpip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span><span class="wtitle">Vecka 13</span><span class="wdates">25–31 aug</span><span class="wkm" style="color:#cdba5d">20 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#5a5a2d">💡 Sista månaden – håll benen varma men spara energi.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#cdba5d">5 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#5daacd">Styrka</span><span class="ddesc">Lätt rörlighet</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#cdba5d">5 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Långpass 10 km</span><span class="dkm" style="color:#cdba5d">10 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Vila + stretching</span></div>
+      <input type="checkbox" class="wcb" id="w12">
+      <label class="wlbl" for="w12">
+        <span class="pip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span>
+        <span class="wt">Vecka 13</span>
+        <span class="wd">25&#8211;31 aug</span>
+        <span class="wk" style="color:#cdba5d">20 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#5a5a2d">&#128161; Sista m&aring;naden &ndash; h&aring;ll benen varma men spara energi.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#cdba5d">5 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#5daacd">Styrka</span><span class="de">L&auml;tt r&ouml;rlighet</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#cdba5d">5 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&aring;ngpass 10 km</span><span class="dk" style="color:#cdba5d">10 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Vila + stretching</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w13">
-      <label class="whdr" for="w13"><span class="wpip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span><span class="wtitle">Vecka 14</span><span class="wdates">1–7 sep</span><span class="wkm" style="color:#cdba5d">17 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#5a5a2d">💡 Kroppen lagrar energi nu. Spring varje pass med bra känsla.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#cdba5d">5 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Tempopass 4 km</span><span class="dkm" style="color:#cdba5d">4 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt långpass 8 km</span><span class="dkm" style="color:#cdba5d">8 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
+      <input type="checkbox" class="wcb" id="w13">
+      <label class="wlbl" for="w13">
+        <span class="pip" style="background:#5a5a2d;color:#cdba5d">NEDTRAPPNING</span>
+        <span class="wt">Vecka 14</span>
+        <span class="wd">1&#8211;7 sep</span>
+        <span class="wk" style="color:#cdba5d">17 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#5a5a2d">&#128161; Kroppen lagrar energi nu. Spring varje pass med bra k&auml;nsla.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#cdba5d">5 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">Tempopass 4 km</span><span class="dk" style="color:#cdba5d">4 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt l&aring;ngpass 8 km</span><span class="dk" style="color:#cdba5d">8 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w14">
-      <label class="whdr" for="w14"><span class="wpip" style="background:#6a4a2d;color:#cd9a5d">TAPER</span><span class="wtitle">Vecka 15</span><span class="wdates">8–14 sep</span><span class="wkm" style="color:#cd9a5d">14 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#6a4a2d">💡 Taper – benen ska kännas fräscha och pigga. Lite rastlöshet är normalt.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 4 km</span><span class="dkm" style="color:#cd9a5d">4 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Yoga / stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 4 km</span><span class="dkm" style="color:#cd9a5d">4 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 6 km</span><span class="dkm" style="color:#cd9a5d">6 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
+      <input type="checkbox" class="wcb" id="w14">
+      <label class="wlbl" for="w14">
+        <span class="pip" style="background:#6a4a2d;color:#cd9a5d">TAPER</span>
+        <span class="wt">Vecka 15</span>
+        <span class="wd">8&#8211;14 sep</span>
+        <span class="wk" style="color:#cd9a5d">14 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#6a4a2d">&#128161; Taper &ndash; benen ska k&auml;nnas fr&auml;scha och pigga. Lite rastl&ouml;shet &auml;r normalt.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 4 km</span><span class="dk" style="color:#cd9a5d">4 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Yoga / stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 4 km</span><span class="dk" style="color:#cd9a5d">4 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 6 km</span><span class="dk" style="color:#cd9a5d">6 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w15">
-      <label class="whdr" for="w15"><span class="wpip" style="background:#6a4a2d;color:#cd9a5d">TAPER</span><span class="wtitle">Vecka 16</span><span class="wdates">15–21 sep</span><span class="wkm" style="color:#cd9a5d">12 km</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#6a4a2d">💡 Du är redo. Förtroendet byggs av träningen – inte av sista veckornas km.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 4 km</span><span class="dkm" style="color:#cd9a5d">4 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Lätt stretching</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">3 km med 1 km i tävlingstempo</span><span class="dkm" style="color:#cd9a5d">3 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt jogg 5 km</span><span class="dkm" style="color:#cd9a5d">5 km</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila</span></div>
+      <input type="checkbox" class="wcb" id="w15">
+      <label class="wlbl" for="w15">
+        <span class="pip" style="background:#6a4a2d;color:#cd9a5d">TAPER</span>
+        <span class="wt">Vecka 16</span>
+        <span class="wd">15&#8211;21 sep</span>
+        <span class="wk" style="color:#cd9a5d">12 km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#6a4a2d">&#128161; Du &auml;r redo. F&ouml;rtroendet byggs av tr&auml;ningen &ndash; inte av sista veckornas km.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 4 km</span><span class="dk" style="color:#cd9a5d">4 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">L&auml;tt stretching</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">3 km med 1 km i t&auml;vlingstempo</span><span class="dk" style="color:#cd9a5d">3 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt jogg 5 km</span><span class="dk" style="color:#cd9a5d">5 km</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila</span></div>
       </div>
     </div>
 
     <div class="wcard">
-      <input type="checkbox" class="week-cb" id="w16">
-      <label class="whdr" for="w16"><span class="wpip" style="background:#e07020;color:#ffb347">RACE WEEK</span><span class="wtitle">Tävlingsvecka</span><span class="wdates">22 sep–3 okt</span><span class="wkm" style="color:#ffb347">🏅</span><span class="wchev">▾</span></label>
-      <div class="wbody"><div class="wtip" style="border-left-color:#e07020">💡 Ät välbekant mat. Lägg ut kläderna kvällen innan. Lita på din träning.</div>
-        <div class="drow"><span class="dday">Mån</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Vila – sov gott</span></div>
-        <div class="drow"><span class="dday">Tis</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt 3 km – håll musklerna varma</span><span class="dkm" style="color:#ffb347">3 km</span></div>
-        <div class="drow"><span class="dday">Ons</span><span class="dtype" style="color:#9d7dcd">Rörlighet</span><span class="ddesc">Stretching, förbered utrustning</span></div>
-        <div class="drow"><span class="dday">Tor</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">Lätt 2 km + några strides</span><span class="dkm" style="color:#ffb347">2 km</span></div>
-        <div class="drow"><span class="dday">Fre</span><span class="dtype" style="color:#555">Vila</span><span class="ddesc">Kolhydratladdning, vila, tidig läggdags</span></div>
-        <div class="drow"><span class="dday">Lör</span><span class="dtype" style="color:#5dba8a">Löpning</span><span class="ddesc">5–10 min aktivering</span></div>
-        <div class="drow"><span class="dday">Sön</span><span class="dtype" style="color:#ffb347">TÄVLING</span><span class="ddesc" style="font-weight:700;color:#ffb347">🏅 Malmö Halvmaraton – 3 oktober!</span></div>
+      <input type="checkbox" class="wcb" id="w16">
+      <label class="wlbl" for="w16">
+        <span class="pip" style="background:#e07020;color:#ffb347">RACE WEEK</span>
+        <span class="wt">T&auml;vlingsvecka</span>
+        <span class="wd">22 sep&#8211;3 okt</span>
+        <span class="wk" style="color:#ffb347">&#127941; km</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="wtip" style="border-left-color:#e07020">&#128161; &Auml;t v&auml;lbekant mat. L&auml;gg ut kl&auml;derna kv&auml;llen innan. Lita p&aring; din tr&auml;ning.</div>
+        <div class="dr"><span class="dd">M&aring;n</span><span class="dt" style="color:#555">Vila</span><span class="de">Vila &ndash; sov gott</span></div>
+        <div class="dr"><span class="dd">Tis</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt 3 km &ndash; h&aring;ll musklerna varma</span><span class="dk" style="color:#ffb347">3 km</span></div>
+        <div class="dr"><span class="dd">Ons</span><span class="dt" style="color:#9d7dcd">R&ouml;rlighet</span><span class="de">Stretching, f&ouml;rbered utrustning</span></div>
+        <div class="dr"><span class="dd">Tor</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">L&auml;tt 2 km + n&aring;gra strides</span><span class="dk" style="color:#ffb347">2 km</span></div>
+        <div class="dr"><span class="dd">Fre</span><span class="dt" style="color:#555">Vila</span><span class="de">Kolhydratladdning, vila, tidig l&auml;ggdags</span></div>
+        <div class="dr"><span class="dd">L&ouml;r</span><span class="dt" style="color:#5dba8a">L&ouml;pning</span><span class="de">5&#8211;10 min aktivering</span></div>
+        <div class="dr"><span class="dd">S&ouml;n</span><span class="dt" style="color:#ffb347">T&Auml;VLING</span><span class="de">&#127941; Malm&ouml; Halvmaraton &ndash; 3 oktober!</span></div>
       </div>
     </div>
-
   </div>
 
   <!-- KOST -->
-  <div class="panel" id="p-nu">
-    <div class="ncard"><div class="ntitle"><span>⚖️</span><span>Dagligt kaloriintag</span></div><div class="ncont">Med 105 kg och måttlig aktivitet behöver du ca 2 400–2 700 kcal/dag för viktminskning, eller 2 700–3 000 kcal på tunga träningsdagar. Sikta på ett underskott om ~300–400 kcal/dag.</div><div class="ndet">Undvik för stort underskott – du behöver energi för träning och återhämtning.</div></div>
-    <div class="ncard"><div class="ntitle"><span>🥩</span><span>Protein – prioritet #1</span></div><div class="ncont">1,6–2,0 g/kg = 170–210 g protein/dag. Protein skyddar muskler vid viktminskning och mättar länge.</div><div class="ndet">Källor: kyckling, ägg, kvarg, lax, linser, tofu, kesella.</div></div>
-    <div class="ncard"><div class="ntitle"><span>🍚</span><span>Kolhydrater – bränsle för löpning</span></div><div class="ncont">3–5 g/kg = 315–525 g/dag. Prioritera komplexa kolhydrater. Öka intaget kvällen före och morgonen av långa löppass.</div><div class="ndet">Havregryn, fullkornspasta, sötpotatis, banan, ris. Undvik att springa på tom mage vid pass &gt;8 km.</div></div>
-    <div class="ncard"><div class="ntitle"><span>🥑</span><span>Fett – hormoner &amp; återhämtning</span></div><div class="ncont">0,8–1,2 g/kg = 80–125 g/dag. Välj mestadels omättade fettkällor.</div><div class="ndet">Avokado, olivolja, nötter, fet fisk.</div></div>
-    <div class="ncard"><div class="ntitle"><span>💧</span><span>Vätskeintag</span></div><div class="ncont">Minst 2,5–3 liter vatten/dag. Tillsätt 500–750 ml extra per timme löpning. Urin ska vara ljusgul.</div><div class="ndet">Ta med dricka på alla pass &gt;45 min. På tävlingsdagen: drick på varje vätskepunkt.</div></div>
-    <div class="ncard"><div class="ntitle"><span>⏱️</span><span>Måltimning kring träning</span></div><div class="ncont">2–3 h före pass: kolhydratsrik måltid. 30–60 min före: liten snack (banan, bar). Inom 30 min efter: protein + kolhydrater.</div><div class="ndet">Exempel: kvarg med banan och granola, eller ägg med bröd.</div></div>
-    <div class="ncard"><div class="ntitle"><span>🏅</span><span>Tävlingsdagen – kostplan</span></div><div class="ncont">3–4 h före start: stor frukost (havregrål, bröd, banan, kaffe). 60 min före: banan + sportdryck. Under loppet: energigel vid km 7 och km 14.</div><div class="ndet">Öva att äta gel under träning! Ät inget nytt på tävlingsdagen.</div></div>
-    <div class="ncard" style="border-color:#2d6a45">
-      <div style="font-weight:700;font-size:15px;color:#5dba8a;margin-bottom:12px">📊 Makroöversikt per dag</div>
-      <div class="mgrid">
-        <div class="mcell"><div class="mval" style="color:#cdba5d">2500–<br>2800</div><div class="munit">kcal</div><div class="mlabel">Kalorier</div></div>
-        <div class="mcell"><div class="mval" style="color:#5dba8a">170–<br>210</div><div class="munit">g</div><div class="mlabel">Protein</div></div>
-        <div class="mcell"><div class="mval" style="color:#5daacd">315–<br>400</div><div class="munit">g</div><div class="mlabel">Kolhydr.</div></div>
-        <div class="mcell"><div class="mval" style="color:#cd9a5d">80–<br>110</div><div class="munit">g</div><div class="mlabel">Fett</div></div>
+  <div class="panel" id="p2">
+    <div class="nc"><div class="nt"><span>&#9878;&#65039;</span><span>Dagligt kaloriintag</span></div><div class="nb">Med 105 kg och m&aring;ttlig aktivitet beh&ouml;ver du ca 2&nbsp;400&#8211;2&nbsp;700 kcal/dag f&ouml;r viktminskning, eller 2&nbsp;700&#8211;3&nbsp;000 kcal p&aring; tunga tr&auml;ningsdagar. Sikta p&aring; ett underskott om ~300&#8211;400 kcal/dag.</div><div class="ns">Undvik f&ouml;r stort underskott &ndash; du beh&ouml;ver energi f&ouml;r tr&auml;ning och &aring;terh&auml;mtning.</div></div>
+    <div class="nc"><div class="nt"><span>&#129385;</span><span>Protein &ndash; prioritet #1</span></div><div class="nb">1,6&#8211;2,0 g/kg = 170&#8211;210 g protein/dag. Protein skyddar muskler vid viktminskning och m&auml;ttar l&auml;nge.</div><div class="ns">K&auml;llor: kyckling, &auml;gg, kvarg, lax, linser, tofu, kesella.</div></div>
+    <div class="nc"><div class="nt"><span>&#127834;</span><span>Kolhydrater &ndash; br&auml;nsle f&ouml;r l&ouml;pning</span></div><div class="nb">3&#8211;5 g/kg = 315&#8211;525 g/dag. Prioritera komplexa kolhydrater. &Ouml;ka intaget kv&auml;llen f&ouml;re och morgonen av l&aring;nga l&ouml;ppass.</div><div class="ns">Havregryn, fullkornspasta, s&ouml;tpotatis, banan, ris. Undvik att springa p&aring; tom mage vid pass &gt;8 km.</div></div>
+    <div class="nc"><div class="nt"><span>&#129361;</span><span>Fett &ndash; hormoner &amp; &aring;terh&auml;mtning</span></div><div class="nb">0,8&#8211;1,2 g/kg = 80&#8211;125 g/dag. V&auml;lj mestadels om&auml;ttade fettkällor.</div><div class="ns">Avokado, olivolja, n&ouml;tter, fet fisk.</div></div>
+    <div class="nc"><div class="nt"><span>&#128167;</span><span>V&auml;tskeintag</span></div><div class="nb">Minst 2,5&#8211;3 liter vatten/dag. Tillsätt 500&#8211;750 ml extra per timme l&ouml;pning. Urin ska vara ljusgul.</div><div class="ns">Ta med dricka p&aring; alla pass &gt;45 min. P&aring; t&auml;vlingsdagen: drick p&aring; varje v&auml;tskepunkt.</div></div>
+    <div class="nc"><div class="nt"><span>&#9201;&#65039;</span><span>M&aring;ltimning kring tr&auml;ning</span></div><div class="nb">2&#8211;3 h f&ouml;re pass: kolhydrats&shy;rik m&aring;ltid. 30&#8211;60 min f&ouml;re: liten snack (banan, bar). Inom 30 min efter: protein + kolhydrater.</div><div class="ns">Exempel: kvarg med banan och granola, eller &auml;gg med br&ouml;d.</div></div>
+    <div class="nc"><div class="nt"><span>&#127941;</span><span>T&auml;vlingsdagen &ndash; kostplan</span></div><div class="nb">3&#8211;4 h f&ouml;re start: stor frukost (havregr&aring;l, br&ouml;d, banan, kaffe). 60 min f&ouml;re: banan + sportdryck. Under loppet: energigel vid km 7 och km 14.</div><div class="ns">&Ouml;va att &auml;ta gel under tr&auml;ning! &Auml;t inget nytt p&aring; t&auml;vlingsdagen.</div></div>
+    <div class="nc" style="border-color:#2d6a45">
+      <div style="font-weight:700;font-size:15px;color:#5dba8a;margin-bottom:12px">&#128202; Makro&ouml;versikt per dag</div>
+      <div class="mg">
+        <div class="mc"><div class="mv" style="color:#cdba5d">2500&#8211;<br>2800</div><div class="mu">kcal</div><div class="ml">Kalorier</div></div>
+        <div class="mc"><div class="mv" style="color:#5dba8a">170&#8211;<br>210</div><div class="mu">g</div><div class="ml">Protein</div></div>
+        <div class="mc"><div class="mv" style="color:#5daacd">315&#8211;<br>400</div><div class="mu">g</div><div class="ml">Kolhydr.</div></div>
+        <div class="mc"><div class="mv" style="color:#cd9a5d">80&#8211;<br>110</div><div class="mu">g</div><div class="ml">Fett</div></div>
       </div>
     </div>
   </div>
 
   <!-- EXEMPELDAG -->
-  <div class="panel" id="p-da">
-    <div class="ncard">
-      <div style="font-weight:700;font-size:16px;margin-bottom:4px">🗓️ Exempeldag – träningsdag</div>
-      <div style="color:#666;font-size:12px;font-family:'Courier New',monospace;margin-bottom:14px">Totalt ~2 630 kcal · ~185 g protein</div>
-      <div class="mrow"><span class="mtime">07:00</span><div style="flex:1"><div class="mname">Frukost</div><div class="mfood">Havregrynsgröt (80 g havre, mjölk), 2 ägg, banan</div></div><span class="mkcal">~650 kcal</span></div>
-      <div class="mrow"><span class="mtime">10:00</span><div style="flex:1"><div class="mname">Mellanmål</div><div class="mfood">Kvarg 200 g + bär + 1 msk nötsmör</div></div><span class="mkcal">~280 kcal</span></div>
-      <div class="mrow"><span class="mtime">13:00</span><div style="flex:1"><div class="mname">Lunch</div><div class="mfood">Kyckling 200 g, ris 150 g (kokt), broccoli, olivolja</div></div><span class="mkcal">~650 kcal</span></div>
-      <div class="mrow"><span class="mtime">16:00</span><div style="flex:1"><div class="mname">Pre-träning</div><div class="mfood">Banan + 30 g mandlar</div></div><span class="mkcal">~250 kcal</span></div>
-      <div class="mrow"><span class="mtime">18:30</span><div style="flex:1"><div class="mname">Post-träning</div><div class="mfood">Lax 200 g, sötpotatis 200 g, sallad</div></div><span class="mkcal">~600 kcal</span></div>
-      <div class="mrow"><span class="mtime">20:30</span><div style="flex:1"><div class="mname">Kvällsmål</div><div class="mfood">Kesella 200 g + lite honung</div></div><span class="mkcal">~200 kcal</span></div>
-    </div>
-    <div class="ncard" style="border-color:#2d5a6a">
-      <div style="font-weight:700;font-size:15px;color:#5daacd;margin-bottom:12px">🔑 Viktiga principer</div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Väg dig 1 gång/vecka, på morgonen, efter toalettbesök</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Sikt på 0,5–1 kg/vecka i viktminskning – inte snabbare</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Öka kolhydraterna dagen före långa pass (&gt;10 km)</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Ät protein vid varje måltid för att mätta och skydda muskler</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Alkohol: max 1–2 glas/vecka – hämmar återhämtning och sömn</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Sömn är lika viktig som träningen – sikt på 7–8 h/natt</span></div>
-      <div class="trow"><span class="tarr">→</span><span class="ttext">Byt inte utrustning nära tävling – använd insprungna skor</span></div>
-    </div>
-    <div class="rbanner">
-      <div style="font-size:36px;margin-bottom:8px">🏅</div>
-      <div style="font-weight:700;font-size:16px;margin-bottom:6px">3 oktober – Malmö Halvmaraton</div>
-      <div style="color:#888;font-size:12px">Du har 17 veckor. Var konsekvent, inte perfekt.</div>
-      <div style="color:#5dba8a;font-size:12px;margin-top:4px">Varje löpning räknas. Lycka till!</div>
+  <div class="panel" id="p3">
+    <input type="radio" name="day" id="d1" checked>
+    <input type="radio" name="day" id="d2">
+    <input type="radio" name="day" id="d3">
+    <div class="dw">
+      <div class="stabs">
+        <label class="slbl" for="d1">&#127939; Tung<br>tr&auml;ningsdag</label>
+        <label class="slbl" for="d2">&#128694; L&auml;tt<br>tr&auml;ningsdag</label>
+        <label class="slbl" for="d3">&#128564; Vilodag</label>
+      </div>
+      <div class="dp" id="dp1">
+        <div class="nc">
+          <div style="font-weight:700;font-size:15px;margin-bottom:4px">&#127939; Tung tr&auml;ningsdag</div>
+          <div style="color:#666;font-size:12px;font-family:Courier New,monospace;margin-bottom:14px">L&aring;ngpass / intervaller &middot; ~2 630 kcal &middot; ~185 g protein</div>
+          <div class="mr"><span class="mt">07:00</span><div style="flex:1"><div class="mn">Frukost</div><div class="mf">Havregr&ouml;t (80 g havre, mjölk), 2 &auml;gg, banan</div></div><span class="mk">~650 kcal</span></div>
+          <div class="mr"><span class="mt">10:00</span><div style="flex:1"><div class="mn">Mellanm&aring;l</div><div class="mf">Kvarg 200 g + b&auml;r + 1 msk n&ouml;tsm&ouml;r</div></div><span class="mk">~280 kcal</span></div>
+          <div class="mr"><span class="mt">13:00</span><div style="flex:1"><div class="mn">Lunch</div><div class="mf">Kyckling 200 g, ris 150 g (kokt), broccoli, olivolja</div></div><span class="mk">~650 kcal</span></div>
+          <div class="mr"><span class="mt">16:00</span><div style="flex:1"><div class="mn">Pre-tr&auml;ning</div><div class="mf">Banan + 30 g mandlar</div></div><span class="mk">~250 kcal</span></div>
+          <div class="mr"><span class="mt">18:30</span><div style="flex:1"><div class="mn">Post-tr&auml;ning</div><div class="mf">Lax 200 g, s&ouml;tpotatis 200 g, sallad</div></div><span class="mk">~600 kcal</span></div>
+          <div class="mr"><span class="mt">20:30</span><div style="flex:1"><div class="mn">Kv&auml;llsm&aring;l</div><div class="mf">Kesella 200 g + lite honung</div></div><span class="mk">~200 kcal</span></div>
+        </div>
+        <div class="nc" style="border-color:#6a2d2d"><div style="font-weight:700;color:#cd6d6d;margin-bottom:8px">&#128161; T&auml;nk p&aring;</div><div style="color:#ccc;font-size:13px;line-height:1.6">&Auml;t ordentligt p&aring; dessa dagar. Pre-tr&auml;ningsmålet 1&#8211;2 h innan l&aring;ngpasset &auml;r extra viktigt s&aring; du inte kraschar i energi.</div></div>
+      </div>
+      <div class="dp" id="dp2">
+        <div class="nc">
+          <div style="font-weight:700;font-size:15px;margin-bottom:4px">&#128694; L&auml;tt tr&auml;ningsdag</div>
+          <div style="color:#666;font-size:12px;font-family:Courier New,monospace;margin-bottom:14px">Jogg 4&#8211;6 km &middot; ~2 300 kcal &middot; ~175 g protein</div>
+          <div class="mr"><span class="mt">07:30</span><div style="flex:1"><div class="mn">Frukost</div><div class="mf">Havregr&ouml;t (60 g havre, mjölk), 2 &auml;gg</div></div><span class="mk">~480 kcal</span></div>
+          <div class="mr"><span class="mt">12:30</span><div style="flex:1"><div class="mn">Lunch</div><div class="mf">Kyckling 200 g, ris 120 g (kokt), gr&ouml;nsaker</div></div><span class="mk">~580 kcal</span></div>
+          <div class="mr"><span class="mt">16:00</span><div style="flex:1"><div class="mn">Mellanm&aring;l</div><div class="mf">Kvarg 200 g + b&auml;r</div></div><span class="mk">~220 kcal</span></div>
+          <div class="mr"><span class="mt">19:00</span><div style="flex:1"><div class="mn">Middag</div><div class="mf">Lax/kyckling 200 g, potatis 200 g, sallad m. olivolja</div></div><span class="mk">~620 kcal</span></div>
+          <div class="mr"><span class="mt">21:00</span><div style="flex:1"><div class="mn">Kv&auml;llsm&aring;l</div><div class="mf">Kesella 150 g</div></div><span class="mk">~140 kcal</span></div>
+        </div>
+        <div class="nc" style="border-color:#2d5a6a"><div style="font-weight:700;color:#5daacd;margin-bottom:8px">&#128161; T&auml;nk p&aring;</div><div style="color:#ccc;font-size:13px;line-height:1.6">N&aring;got mindre portioner &auml;n tung dag. Den korta joggningen kr&auml;ver inget extra pre-tr&auml;ninsm&aring;l &ndash; &auml;t normalt. Proteinet h&aring;lls h&ouml;gt f&ouml;r &aring;terh&auml;mtning.</div></div>
+      </div>
+      <div class="dp" id="dp3">
+        <div class="nc">
+          <div style="font-weight:700;font-size:15px;margin-bottom:4px">&#128564; Vilodag</div>
+          <div style="color:#666;font-size:12px;font-family:Courier New,monospace;margin-bottom:14px">Ingen tr&auml;ning &middot; ~2 050 kcal &middot; ~175 g protein</div>
+          <div class="mr"><span class="mt">08:00</span><div style="flex:1"><div class="mn">Frukost</div><div class="mf">3 &auml;gg, 2 skivor fullkornsbrö;d, avokado</div></div><span class="mk">~520 kcal</span></div>
+          <div class="mr"><span class="mt">13:00</span><div style="flex:1"><div class="mn">Lunch</div><div class="mf">Kyckling 200 g, stor sallad, 100 g ris/quinoa</div></div><span class="mk">~520 kcal</span></div>
+          <div class="mr"><span class="mt">18:30</span><div style="flex:1"><div class="mn">Middag</div><div class="mf">Lax/nötkött 200 g, gr&ouml;nsaker, lite potatis</div></div><span class="mk">~600 kcal</span></div>
+          <div class="mr"><span class="mt">21:00</span><div style="flex:1"><div class="mn">Kv&auml;llsm&aring;l</div><div class="mf">Kvarg 250 g + b&auml;r</div></div><span class="mk">~280 kcal</span></div>
+        </div>
+        <div class="nc" style="border-color:#4a2d6a"><div style="font-weight:700;color:#9d7dcd;margin-bottom:8px">&#128161; T&auml;nk p&aring;</div><div style="color:#ccc;font-size:13px;line-height:1.6">F&auml;rre kolhydrater (du beh&ouml;ver inte br&auml;nsle f&ouml;r tr&auml;ning) men samma h&ouml;ga protein &ndash; det &auml;r p&aring; vilodagar musklerna faktiskt reparerar sig.</div></div>
+      </div>
+      <div class="nc" style="border-color:#2d5a6a;margin-top:4px">
+        <div style="font-weight:700;font-size:15px;color:#5daacd;margin-bottom:12px">&#128273; Viktiga principer</div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">V&auml;g dig 1 g&aring;ng/vecka, p&aring; morgonen, efter toalettbesök</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">Sikt p&aring; 0,5&#8211;1 kg/vecka i viktminskning &ndash; inte snabbare</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">&Ouml;ka kolhydraterna dagen f&ouml;re l&aring;nga pass (&gt;10 km)</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">&Auml;t protein vid varje m&aring;ltid f&ouml;r att m&auml;tta och skydda muskler</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">Alkohol: max 1&#8211;2 glas/vecka &ndash; h&auml;mmar &aring;terh&auml;mtning och s&ouml;mn</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">S&ouml;mn &auml;r lika viktig som tr&auml;ningen &ndash; sikt p&aring; 7&#8211;8 h/natt</span></div>
+        <div class="tr"><span class="ta">&#8594;</span><span class="tx">Byt inte utrustning n&auml;ra t&auml;vling &ndash; anv&auml;nd insprungna skor</span></div>
+      </div>
+      <div class="rb">
+        <div style="font-size:36px;margin-bottom:8px">&#127941;</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">3 oktober &ndash; Malm&ouml; Halvmaraton</div>
+        <div style="color:#888;font-size:12px">Du har 17 veckor. Var konsekvent, inte perfekt.</div>
+        <div style="color:#5dba8a;font-size:12px;margin-top:4px">Varje l&ouml;pning r&auml;knas. Lycka till!</div>
+      </div>
     </div>
   </div>
 
+
+  <!-- RECEPT -->
+  <div class="panel" id="p4">
+    <div style="color:#888;font-size:13px;line-height:1.6;margin-bottom:14px;padding:0 2px">5 luncher + 5 middagar anpassade till dina m&aring;l: ~580&#8211;650 kcal och 45&#8211;55 g protein per m&aring;l. Tips: laga dubbel portion av middagen s&aring; har du n&auml;sta dags lunch klar.</div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="rshop">
+      <label class="wlbl" for="rshop">
+        <span class="pip" style="background:#e07020;color:#ffb347">INK&Ouml;PSLISTA</span>
+        <span class="wt">&#128722; R&aring;varor f&ouml;r alla 10 recept</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div style="color:#888;font-size:12px;line-height:1.5;margin-bottom:12px;margin-top:2px">Allt du beh&ouml;ver f&ouml;r samtliga recept <b>och</b> m&aring;ltiderna under Exempeldag (frukostar, mellanm&aring;l, kv&auml;llsm&aring;l). Skafferivaror r&auml;cker l&auml;nge &ndash; k&ouml;p f&auml;rskvaror efter veckans behov.</div>
+
+        <div style="font-weight:700;font-size:12px;color:#cd6d6d;margin-bottom:6px;font-family:Courier New,monospace">PROTEIN (k&ouml;p f&auml;rskt/fryst)</div>
+        <div class="ring">&bull; Kycklingfil&eacute; (ca 600 g/vecka)<br>&bull; Kycklingl&aring;rfil&eacute; (200 g)<br>&bull; Laxfil&eacute; (200 g) + varmr&ouml;kt lax (150 g)<br>&bull; Torskfil&eacute; (250 g, g&auml;rna fryst)<br>&bull; N&ouml;tf&auml;rs max 10 % (200 g)<br>&bull; Fl&auml;skytterfil&eacute; (200 g)<br>&bull; N&ouml;tk&ouml;tt, t.ex. ryggbiff (200 g, vilodagsmiddag)<br>&bull; Halloumi (100 g)<br>&bull; Tonfisk i vatten (2&#8211;3 burkar, skafferi)<br>&bull; &Auml;gg (en kartong)</div>
+
+        <div style="font-weight:700;font-size:12px;color:#5dba8a;margin-bottom:6px;font-family:Courier New,monospace">MEJERI</div>
+        <div class="ring">&bull; Kvarg (stor f&ouml;rpackning &ndash; anv&auml;nds i flera recept)<br>&bull; Kesella<br>&bull; Fetaost (50 g)<br>&bull; Matlagningsgr&auml;dde l&auml;tt (1 dl)<br>&bull; Mj&ouml;lk (till gr&ouml;t och mos)<br>&bull; Sm&ouml;r</div>
+
+        <div style="font-weight:700;font-size:12px;color:#5daacd;margin-bottom:6px;font-family:Courier New,monospace">KOLHYDRATER (skafferi)</div>
+        <div class="ring">&bull; Ris (jasmin/basmati)<br>&bull; Fullkornspasta<br>&bull; Quinoa<br>&bull; Havregryn<br>&bull; Fullkornstortillas<br>&bull; Fullkornsbr&ouml;d (frukost p&aring; vilodagar)<br>&bull; Potatis + s&ouml;tpotatis<br>&bull; Gr&ouml;na linser (f&ouml;rkokta p&aring; burk g&aring;r bra)</div>
+
+        <div style="font-weight:700;font-size:12px;color:#cdba5d;margin-bottom:6px;font-family:Courier New,monospace">GR&Ouml;NSAKER &amp; FRUKT</div>
+        <div class="ring">&bull; Broccoli, sparris, gr&ouml;na b&ouml;nor, gr&ouml;na &auml;rtor (frysta funkar)<br>&bull; Babyspenat<br>&bull; Paprika, zucchini, tomat, gurka<br>&bull; Sallad<br>&bull; L&ouml;k, r&ouml;dl&ouml;k, vitl&ouml;k<br>&bull; Citron + lime<br>&bull; Oliver<br>&bull; Bananer (till mellanm&aring;l och f&ouml;re pass)<br>&bull; B&auml;r (frysta &auml;r billigast)<br>&bull; Avokado</div>
+
+        <div style="font-weight:700;font-size:12px;color:#cd9a5d;margin-bottom:6px;font-family:Courier New,monospace">SKAFFERI &amp; KRYDDOR</div>
+        <div class="ring">&bull; Olivolja<br>&bull; Krossade tomater (1 burk)<br>&bull; Kokosmj&ouml;lk light (1 burk)<br>&bull; R&ouml;d currypasta<br>&bull; Sweet chilis&aring;s<br>&bull; Soja + fisks&aring;s<br>&bull; Dijonsenap<br>&bull; Str&ouml;br&ouml;d<br>&bull; N&ouml;tsm&ouml;r + mandlar (mellanm&aring;l)<br>&bull; Honung<br>&bull; Kryddor: oregano, rosmarin, dill, spiskummin, paprikapulver, chiliflakes, salt, peppar</div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r0">
+      <label class="wlbl" for="r0">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">LUNCH</span>
+        <span class="wt">&#127831; Kycklingbowl med ris</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~580 kcal</span>
+          <span class="rpill" style="color:#5dba8a">52 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g kycklingfil&eacute;<br>&bull; 120 g kokt ris (40 g okokt)<br>&bull; 250 g broccoli<br>&bull; 1 paprika<br>&bull; 1 msk sweet chilis&aring;s<br>&bull; Salt, peppar, paprikapulver</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Koka riset enligt f&ouml;rpackningen.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Krydda kycklingen och stek i het panna 4&#8211;5 min per sida tills genomstekt.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>&Aring;ngkoka eller stek broccolin 4 min, skiva paprikan r&aring;.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>L&auml;gg allt i en sk&aring;l, toppa med sweet chilis&aring;s.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r1">
+      <label class="wlbl" for="r1">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">LUNCH</span>
+        <span class="wt">&#127790; Laxwrap med kvargdressing</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~570 kcal</span>
+          <span class="rpill" style="color:#5dba8a">48 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 150 g varmr&ouml;kt lax<br>&bull; 2 fullkornstortillas<br>&bull; 100 g kvarg<br>&bull; 1 tsk dijonsenap<br>&bull; Citronsaft, dill<br>&bull; Sallad, gurka, r&ouml;dl&ouml;k</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>R&ouml;r ihop kvarg, senap, citron och dill till dressing.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Bred dressingen p&aring; tortillas.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>F&ouml;rdela lax och gr&ouml;nsaker, rulla ihop.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Klart p&aring; 5 minuter &ndash; perfekt n&auml;r tiden &auml;r knapp.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r2">
+      <label class="wlbl" for="r2">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">LUNCH</span>
+        <span class="wt">&#129385; K&ouml;ttf&auml;rsbiffar med potatis</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~600 kcal</span>
+          <span class="rpill" style="color:#5dba8a">50 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g n&ouml;tf&auml;rs (max 10 % fett)<br>&bull; 200 g potatis<br>&bull; 200 g gr&ouml;na b&ouml;nor<br>&bull; 1 dl matlagningsgr&auml;dde (l&auml;tt)<br>&bull; 1 msk soja, lite buljong<br>&bull; 1 &auml;gg, str&ouml;br&ouml;d till f&auml;rsen</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Koka potatisen.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Blanda f&auml;rs, &auml;gg, str&ouml;br&ouml;d, salt och peppar. Forma 3&#8211;4 biffar.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>Stek biffarna 3&#8211;4 min per sida.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Koka upp gr&auml;dde, soja och buljong i pannan till en enkel s&aring;s.</span></div>
+        <div class="rstep"><span class="rnum">5.</span><span>Koka b&ouml;norna 3 min. Servera.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r3">
+      <label class="wlbl" for="r3">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">LUNCH</span>
+        <span class="wt">&#128031; Tonfiskpasta med citron</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~560 kcal</span>
+          <span class="rpill" style="color:#5dba8a">46 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 1 burk tonfisk i vatten (avrunnen)<br>&bull; 80 g fullkornspasta (torrvikt)<br>&bull; 100 g kvarg<br>&bull; 1 citron (saft + zest)<br>&bull; 80 g babyspenat<br>&bull; 1 vitl&ouml;ksklyfta, chiliflakes</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Koka pastan al dente. Spara 1 dl pastavatten.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Fr&auml;s vitl&ouml;ken kort, tillsätt spenaten tills den sjunker ihop.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>R&ouml;r ner kvarg, citron och lite pastavatten till krämig konsistens.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Vänd ner pasta och tonfisk, smaka av med salt och chiliflakes.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r4">
+      <label class="wlbl" for="r4">
+        <span class="pip" style="background:#2d5a6a;color:#5daacd">LUNCH</span>
+        <span class="wt">&#129367; Kycklingsallad med quinoa</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~590 kcal</span>
+          <span class="rpill" style="color:#5dba8a">54 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g kycklingfil&eacute;<br>&bull; 80 g quinoa (torrvikt)<br>&bull; 50 g fetaost<br>&bull; 10 oliver<br>&bull; Tomat, gurka, r&ouml;dl&ouml;k<br>&bull; Olivolja, citron, oregano</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Koka quinoan enligt f&ouml;rpackningen, l&aring;t svalna n&aring;got.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Stek kycklingen med oregano, skiva.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>Blanda quinoa, gr&ouml;nsaker, oliver och feta.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Toppa med kyckling, ringla &ouml;ver olivolja och citron.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r5">
+      <label class="wlbl" for="r5">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">MIDDAG</span>
+        <span class="wt">&#128032; Ugnsbakad lax med s&ouml;tpotatis</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~620 kcal</span>
+          <span class="rpill" style="color:#5dba8a">48 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g laxfil&eacute;<br>&bull; 200 g s&ouml;tpotatis<br>&bull; 150 g sparris<br>&bull; 1 citron<br>&bull; Olivolja, salt, peppar, dill</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>S&auml;tt ugnen p&aring; 200&deg;C.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Klyfta s&ouml;tpotatisen, ringla olja, rosta 25 min.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>L&auml;gg laxen p&aring; pl&aring;t med citronskivor sista 15 min.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Tills&auml;tt sparrisen sista 8 min. Servera med dill.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r6">
+      <label class="wlbl" for="r6">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">MIDDAG</span>
+        <span class="wt">&#127835; Kycklinggryta med curry</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~640 kcal</span>
+          <span class="rpill" style="color:#5dba8a">50 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g kycklingl&aring;rfil&eacute;<br>&bull; 2 dl kokosmj&ouml;lk light<br>&bull; 1 msk r&ouml;d currypasta<br>&bull; 100 g kokt ris<br>&bull; Paprika, l&ouml;k, zucchini<br>&bull; Fisks&aring;s eller soja, lime</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Bryn kycklingen i bitar, l&auml;gg &aring;t sidan.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Fr&auml;s currypastan 1 min, tillsätt kokosmj&ouml;lken.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>L&auml;gg i gr&ouml;nsaker och kyckling, sjud 10 min.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Smaka av med fisks&aring;s och lime. Servera med ris.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r7">
+      <label class="wlbl" for="r7">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">MIDDAG</span>
+        <span class="wt">&#129363; Fl&auml;skytterfil&eacute; med klyftpotatis</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~610 kcal</span>
+          <span class="rpill" style="color:#5dba8a">52 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 200 g fl&auml;skytterfil&eacute;<br>&bull; 200 g potatis i klyftor<br>&bull; 150 g kvarg<br>&bull; &frac12; gurka, vitl&ouml;k, citron till tzatziki<br>&bull; Sallad<br>&bull; Olivolja, rosmarin</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Rosta potatisklyftor med olja och rosmarin i ugn 200&deg;C, 30 min.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Riv gurkan, krama ur v&auml;tskan, blanda med kvarg, pressad vitl&ouml;k och citron.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>Stek fil&eacute;n 3&#8211;4 min per sida, l&aring;t vila 5 min innan du skivar.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Servera med tzatziki och sallad.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r8">
+      <label class="wlbl" for="r8">
+        <span class="pip" style="background:#2d6a45;color:#5dba8a">MIDDAG</span>
+        <span class="wt">&#128032; Torsk med potatismos och &auml;rtor</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~580 kcal</span>
+          <span class="rpill" style="color:#5dba8a">50 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 250 g torskfil&eacute;<br>&bull; 250 g potatis till mos<br>&bull; 150 g gr&ouml;na &auml;rtor<br>&bull; 1 msk sm&ouml;r<br>&bull; Mj&ouml;lk till moset<br>&bull; Citron, dill</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Koka potatisen, mosa med lite sm&ouml;r och mj&ouml;lk.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>Salta torsken, stek f&ouml;rsiktigt 3 min per sida i sm&ouml;r.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>Koka &auml;rtorna 2 min.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Servera med citron och dill. Ringla det brynta sm&ouml;ret fr&aring;n pannan &ouml;ver fisken.</span></div>
+      </div>
+    </div>
+    <div class="wcard">
+      <input type="checkbox" class="rcb" id="r9">
+      <label class="wlbl" for="r9">
+        <span class="pip" style="background:#6a4a2d;color:#cd9a5d">MIDDAG (VEG)</span>
+        <span class="wt">&#129749; Halloumi- och linsgryta</span>
+        <span class="wc">&#9660;</span>
+      </label>
+      <div class="wbdy">
+        <div class="rmac" style="margin-top:0;margin-bottom:12px">
+          <span class="rpill" style="color:#cdba5d">~600 kcal</span>
+          <span class="rpill" style="color:#5dba8a">38 g protein</span>
+        </div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:6px;font-family:Courier New,monospace">INGREDIENSER</div>
+        <div class="ring">&bull; 100 g halloumi<br>&bull; 200 g kokta gr&ouml;na linser<br>&bull; 1 burk krossade tomater<br>&bull; 80 g babyspenat<br>&bull; L&ouml;k, vitl&ouml;k, spiskummin, paprikapulver<br>&bull; Kvarg till servering</div>
+        <div style="font-weight:700;font-size:12px;color:#888;margin-bottom:4px;font-family:Courier New,monospace">G&Ouml;R S&Aring;</div>
+        <div class="rstep"><span class="rnum">1.</span><span>Fr&auml;s l&ouml;k och vitl&ouml;k, tillsätt kryddorna.</span></div>
+        <div class="rstep"><span class="rnum">2.</span><span>H&auml;ll i tomater och linser, sjud 10 min.</span></div>
+        <div class="rstep"><span class="rnum">3.</span><span>V&auml;nd ner spenaten p&aring; slutet.</span></div>
+        <div class="rstep"><span class="rnum">4.</span><span>Stek halloumin gyllene, l&auml;gg ovanp&aring;. Toppa med en klick kvarg.</span></div>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>
